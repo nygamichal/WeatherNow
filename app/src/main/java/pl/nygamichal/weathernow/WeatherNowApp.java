@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //class stanowiaca glowny element dla calej applikacji
 public class WeatherNowApp extends Application {
     private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/";
-    private static final String API_KEY = "df575cf63177bd4fd5e64946b33b89b1";
+    public static final String API_KEY = "df575cf63177bd4fd5e64946b33b89b1";
 
     Retrofit retrofit;
     public static WeatherApi weatherApi;
