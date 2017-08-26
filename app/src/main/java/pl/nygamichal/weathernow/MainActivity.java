@@ -6,6 +6,9 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -16,24 +19,29 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String TAG = MainActivity.class.getCanonicalName();
 
     @BindView(R.id.imageView)
     ImageView imageView;
     @BindView(R.id.textView)
     TextView textView;
+    @BindView(R.id.mapsview)
+    MapView mapsView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        mapsView.getMapAsync(this);
+        mapsView.onCreate(savedInstanceState);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mapsView.onResume();
         WeatherNowApp.weatherApi.getWeather(WeatherNowApp.API_KEY,"Krakow,pl").enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
@@ -63,5 +71,22 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onFailure: ");
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        mapsView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mapsView.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        Log.d(TAG, "onMapReady: ");
     }
 }
