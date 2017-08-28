@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     GoogleApiClient googleApiClient;
     GoogleMap googleMaps;
     LocationRequest locationRequest = com.google.android.gms.location.LocationRequest.create()
-            .setExpirationDuration(TimeUnit.SECONDS.toMilles(5))
             .setInterval(500)
             .setFastestInterval(300)
             .setMaxWaitTime(1)
